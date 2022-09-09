@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Create</h1>
+
+    <form action="#" th:action="@{/createBlog}"
+        th:object="${blog}" method="POST">
+        Title:
+        <input type="text" th:field="*{title}" />
+        <br/>
+        content:
+        <input type="text" th:field="*{content}" />
+        <br/>
+        Cover:
+        <input type="text" th:field="*{cover}" />
+        <br/>
+        <input type="submit" value="create" />
+
+    </form>
+</body>
+</html>
