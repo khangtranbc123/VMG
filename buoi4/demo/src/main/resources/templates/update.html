@@ -7,7 +7,7 @@
 <body>
 <h1>Update</h1>
 
-<form action="#" th:action="@{/updateBlog/{id}(id=${blog.id})}"
+<form action="#" th:action="@{/blog/updateBlog/{id}(id=${blog.id})}"
       th:object="${blog}" method="POST">
     Title:
     <input type="text" th:field="*{title}" />
@@ -16,7 +16,7 @@
     <input type="text" th:field="*{content}" />
     <br/>
     Cover:
-    <input type="text" th:field="*{cover}" />
+    <input type="file" th:field="*{cover}" />
     <br/>
     <input type="submit" value="updateBlog" />
 

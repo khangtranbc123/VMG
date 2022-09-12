@@ -7,7 +7,7 @@
 <body>
     <h1>Create</h1>
 
-    <form action="#" th:action="@{/createBlog}"
+    <form enctype="multipart/form-data"
         th:object="${blog}" method="POST">
         Title:
         <input type="text" th:field="*{title}" />
@@ -16,10 +16,19 @@
         <input type="text" th:field="*{content}" />
         <br/>
         Cover:
-        <input type="text" th:field="*{cover}" />
+        <input type="file" th:field="*{cover}" />
+        <br>
+        Category
+        <select>
+            <option>chọn thể loại</option>
+<!--            <th:block th:each="x : ${cates}">-->
+<!--                <option th:value="${x.id}" th:text="${x.name}"></option>-->
+<!--            </th:block>-->
+                <option th:each="x : ${cates}" th:value="${x.id}" th:text="${x.name}"></option>
+        </select>
         <br/>
         <input type="submit" value="create" />
-
+        <br>
     </form>
 </body>
 </html>

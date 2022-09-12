@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+
+<h1>Create</h1>
+<div>
+    <form action="#" th:action="@{/cate/updateCate/{id}(id=${category.id})}"
+          th:object="${category}" method="POST">
+        name:
+        <input type="text" th:field="*{name}" />
+        <br/>
+        <br/>
+        <input type="submit" value="update" />
+        <br>
+    </form>
+</div>
+
+</body>
+</html>

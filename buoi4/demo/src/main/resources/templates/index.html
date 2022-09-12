@@ -6,7 +6,7 @@
 </head>
 <body>
     <div th:switch="${blogs}">
-        <h2 th:case="null">No users yet!</h2>
+        <h2 th:case="null">404!</h2>
         <div th:case="*">
             <h2>Bolgs</h2>
             <table style="border: solid 1px">
@@ -16,22 +16,24 @@
                     <th>title</th>
                     <th>cover</th>
                     <th>content</th>
+                    <th>category</th>
                     <th>Tt</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="x : ${blogs}">
-                    <td th:text="${x.id}"></td>
-                    <td th:text="${x.title}"></td>
-                    <td th:text="${x.cover}"></td>
-                    <td th:text="${x.content}"></td>
-                    <td><a th:href="@{/edit/{id}(id=${x.id})}">Edit</a></td>
-                    <td><a th:href="@{/delete/{id}(id=${x.id})}">Delete</a></td>
-                </tr>
+                    <tr th:each="x : ${blogs}">
+                        <td th:text="${x.id}"></td>
+                        <td th:text="${x.title}"></td>
+                        <td><img th:src="${x.cover}" width="50px"></td>
+                        <td th:text="${x.content}"></td>
+<!--                        <td th:text="${x.getCategory().getName()}"></td>-->
+                        <td><a th:href="@{/blog/edit/{id}(id=${x.id})}">Edit</a></td>
+                        <td><a th:href="@{/blog/delete/{id}(id=${x.id})}">Delete</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <p><a href="/add">Add new Blog</a></p>
+        <p><a href="/blog/create">Add new Blog</a></p>
     </div>
 </body>
 </html>
