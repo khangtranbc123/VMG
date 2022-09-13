@@ -5,29 +5,33 @@ import com.example.demo.entity.Category;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
 public class BlogForm {
     private Integer id;
     private String title;
-    private MultipartFile cover;
     private String content;
+    private Set<CoverForm> coverForms;
     private Category category;
 
+    private List<MultipartFile> files;
 
     public BlogForm(){
     }
     public BlogForm(BlogFormBuilder blogFormBuilder) {
         this.title = blogFormBuilder.title;
         this.content = blogFormBuilder.content;
-        this.cover = blogFormBuilder.cover;
-        this.category = blogFormBuilder.category;
+        this.coverForms = blogFormBuilder.coverForms;
+//        this.category = blogFormBuilder.category;
     }
 
     public static class BlogFormBuilder{
         private final String title;
         private String content;
-        private MultipartFile cover;
-        private Category category;
+        private Set<CoverForm> coverForms;
+//        private Category category;
 
         public BlogFormBuilder(String title){
             this.title = title;
@@ -37,14 +41,14 @@ public class BlogForm {
             return this;
         }
 
-        public BlogFormBuilder cover(MultipartFile cover) {
-            this.cover = cover;
+        public BlogFormBuilder cover(Set<CoverForm> cover) {
+            this.coverForms = cover;
             return this;
         }
-        public BlogFormBuilder cate(Category category){
-            this.category = category;
-            return this;
-        }
+//        public BlogFormBuilder cate(Category category){
+//            this.category = category;
+//            return this;
+//        }
 
         public BlogForm build() {
             return new BlogForm(this);

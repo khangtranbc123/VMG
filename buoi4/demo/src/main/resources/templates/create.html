@@ -18,13 +18,13 @@
         Cover:
         <input type="file" th:field="*{cover}" />
         <br>
-        Category
-        <select>
+        Category:
+        <select name="category">
             <option>chọn thể loại</option>
-<!--            <th:block th:each="x : ${cates}">-->
-<!--                <option th:value="${x.id}" th:text="${x.name}"></option>-->
-<!--            </th:block>-->
-                <option th:each="x : ${cates}" th:value="${x.id}" th:text="${x.name}"></option>
+            <th:block th:each="x : ${category}">
+                <option th:value="${x.id}" th:text="${x.name}"></option>
+            </th:block>
+<!--             <option th:each="x : ${category}" th:value="${x.id}" th:text="${x.name}"></option>-->
         </select>
         <br/>
         <input type="submit" value="create" />

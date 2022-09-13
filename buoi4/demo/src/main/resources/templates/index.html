@@ -5,6 +5,17 @@
     <title>index</title>
 </head>
 <body>
+    <form>
+        <label>Choose a category:</label>
+        <select name="id">
+            <option th:value="null">category</option>
+            <th:block th:each="x : ${cates}">
+                <option th:value="${x.id}" th:text="${x.name}"></option>
+            </th:block>
+        </select>
+        <input type="submit" value="find">
+    </form>
+<br>
     <div th:switch="${blogs}">
         <h2 th:case="null">404!</h2>
         <div th:case="*">
@@ -26,7 +37,7 @@
                         <td th:text="${x.title}"></td>
                         <td><img th:src="${x.cover}" width="50px"></td>
                         <td th:text="${x.content}"></td>
-<!--                        <td th:text="${x.getCategory().getName()}"></td>-->
+                        <td th:text="${x.getCategory().getName()}"></td>
                         <td><a th:href="@{/blog/edit/{id}(id=${x.id})}">Edit</a></td>
                         <td><a th:href="@{/blog/delete/{id}(id=${x.id})}">Delete</a></td>
                     </tr>

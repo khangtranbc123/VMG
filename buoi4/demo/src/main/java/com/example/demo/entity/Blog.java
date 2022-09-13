@@ -1,8 +1,11 @@
 package com.example.demo.entity;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -13,12 +16,15 @@ public class Blog {
     @Column
     private String title;
     @Column
-    private String cover;
-    @Column
     private String content;
     @ManyToOne
     @JoinColumn(name = "Categoryid")
     private Category category;
+
+    @OneToMany(mappedBy = "blog")
+    private Set<Cover> covers;
+    @Transient
+    private List<MultipartFile> files;
 
     public Category getCategory() {
         return category;
@@ -44,14 +50,6 @@ public class Blog {
         this.title = title;
     }
 
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
     public String getContent() {
         return content;
     }
@@ -62,18 +60,16 @@ public class Blog {
 
     public Blog(BlogBuilder blogBuilder) {
         this.title = blogBuilder.title;
-        this.cover = blogBuilder.cover;
         this.content = blogBuilder.content;
-        this.category = blogBuilder.category;
+//        this.category = blogBuilder.category;
     }
     public Blog(){
 
     }
     public static class BlogBuilder{
         private final String title;
-        private String cover;
         private String content;
-        private Category category;
+ //       private Category category;
 
         public BlogBuilder(String title){
             this.title = title;
@@ -83,15 +79,15 @@ public class Blog {
             return this;
         }
 
-        public BlogBuilder category(Category category){
-            this.category = category;
-            return this;
-        }
+//        public BlogBuilder category(Category category){
+//            this.category = category;
+//            return this;
+//        }
 
-        public BlogBuilder cover(String cover) {
-            this.cover = cover;
-            return this;
-        }
+//        public BlogBuilder cover(String cover) {
+//            this.cover = cover;
+//            return this;
+//        }
 
         public Blog build() {
             return new Blog(this);
