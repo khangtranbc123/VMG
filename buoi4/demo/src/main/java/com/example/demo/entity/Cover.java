@@ -1,11 +1,14 @@
 package com.example.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +18,17 @@ public class Cover {
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;
-    public Cover(){}
 
     public Cover(CoverBuilder coverBuilder){
         this.name = coverBuilder.name;
         this.blog = coverBuilder.blog;
     }
+
+    public Cover(String fileName, Blog blog) {
+        this.name = fileName;
+        this.blog = blog;
+    }
+
     public static class CoverBuilder{
         private final String name;
         private Blog blog;

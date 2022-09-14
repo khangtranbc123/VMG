@@ -1,31 +1,42 @@
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
     <h1>Create</h1>
 
-    <form enctype="multipart/form-data"
+    <form action="#" th:action="@{/blog/create}" enctype="multipart/form-data"
         th:object="${blog}" method="POST">
-        Title:
-        <input type="text" th:field="*{title}" />
-        <br/>
-        content:
-        <input type="text" th:field="*{content}" />
-        <br/>
-        Cover:
-        <input type="file" th:field="*{cover}" />
+        <div>
+            Title:
+            <input type="text" th:field="*{title}" id="title"/>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
         <br>
-        Category:
-        <select name="category">
-            <option>chọn thể loại</option>
-            <th:block th:each="x : ${category}">
-                <option th:value="${x.id}" th:text="${x.name}"></option>
-            </th:block>
-<!--             <option th:each="x : ${category}" th:value="${x.id}" th:text="${x.name}"></option>-->
-        </select>
+        <div>
+            content:
+            <input type="text" th:field="*{content}" id="content" />
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+        </div>
+        <br/>
+        <br/>
+        <div>
+            Cover:
+            <input type="file"  multiple="multiple" th:field="*{files}" />
+        </div>
+        <br>
+        <div>
+            Category:
+            <select name="category">
+                <option>chọn thể loại</option>
+                <th:block th:each="x : ${category}">
+                    <option th:value="${x.id}" th:text="${x.name}"></option>
+                </th:block>
+            </select>
+        </div>
         <br/>
         <input type="submit" value="create" />
         <br>

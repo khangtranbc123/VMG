@@ -14,7 +14,7 @@ public class CoverServiceImpl implements ICoverService {
 
     @Override
     public List<Cover> getAll() {
-        return null;
+        return coverRepository.findAll();
     }
 
     @Override

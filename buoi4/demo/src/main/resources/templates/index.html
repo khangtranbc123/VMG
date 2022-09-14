@@ -25,8 +25,8 @@
                 <tr>
                     <th>id</th>
                     <th>title</th>
-                    <th>cover</th>
                     <th>content</th>
+                    <th>Cover</th>
                     <th>category</th>
                     <th>Tt</th>
                 </tr>
@@ -35,7 +35,10 @@
                     <tr th:each="x : ${blogs}">
                         <td th:text="${x.id}"></td>
                         <td th:text="${x.title}"></td>
-                        <td><img th:src="${x.cover}" width="50px"></td>
+
+                        <td>
+                            <img th:each="img : ${x.getCovers()}"  th:src="'/image/'+${img.getName()}" width="50px"/>
+                        </td>
                         <td th:text="${x.content}"></td>
                         <td th:text="${x.getCategory().getName()}"></td>
                         <td><a th:href="@{/blog/edit/{id}(id=${x.id})}">Edit</a></td>
@@ -44,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <p><a href="/blog/create">Add new Blog</a></p>
+        <p><a href="/blog/add">Add new Blog</a></p>
     </div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.example.th2.service;
 
 import com.example.th2.entity.City;
+import com.example.th2.exception.CityNotFoundException;
+import com.example.th2.exception.NoDataFoundException;
 import com.example.th2.repository.CityRepository;
 import org.springframework.stereotype.Service;
 

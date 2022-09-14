@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.validation.Valid;
+
 @Controller
 @Slf4j
 @RequestMapping("/blog")
@@ -51,9 +55,11 @@ public class BlogController {
     @Value("${upload.path}")
     private String fileUpload;
     @GetMapping()
-    public ModelAndView getAll(Model model, @RequestParam("id")Optional<Integer> id){
+    public ModelAndView getAll(@Valid Blog blog, Errors errors, Model model, @RequestParam("id")Optional<Integer> id){
+        List<Cover> covers = iCoverService.getAll();
         List<Category> cates = iCategoryService.getAll();
         ModelAndView modelAndView = new ModelAndView("/index");
+        modelAndView.addObject("covers", covers );
         modelAndView.addObject("cates", cates );
         modelAndView.addObject("message", "thanh cong" );
         // model.addAttribute("blogs", blogs);
@@ -68,7 +74,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/create")
+    @GetMapping("/add")
     public ModelAndView add(Model model){
         ModelAndView modelAndView = new ModelAndView("/create");
         List<Category> category = iCategoryService.getAll();
@@ -82,24 +88,28 @@ public class BlogController {
 //    }
 
     @PostMapping("/create")
-    public RedirectView createBlog(@Validated @ModelAttribute BlogForm blogForm, BindingResult result, Model model){
-          Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
+    public String createBlog( @Validated @ModelAttribute("blog") BlogForm blogForm,Errors errors, BindingResult result, Model model){
+            if(errors.hasErrors()){
+//                System.out.println(errors.getAllErrors());
+                return "create";
+            }
+         Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
           blog.setCategory(blogForm.getCategory());
           iBlogService.save(blog);
-
           for (MultipartFile file: blogForm.getFiles()){
               try {
-                   var fileName = file.getOriginalFilename();
-                   var is = file.getInputStream();
-                  Files.copy(is, Paths.get(this.fileUpload + fileName), StandardCopyOption.REPLACE_EXISTING);
+                   String fileName = file.getOriginalFilename();
+                //   var is = file.getInputStream();
+                   Files.copy(file.getInputStream(), Paths.get(this.fileUpload + fileName), StandardCopyOption.REPLACE_EXISTING);
+                 // FileCopyUtils.copy(blog.getCover().getBytes(), new File(this.fileUpload + fileName));
                   Cover cover = new Cover(fileName, blog);
                   iCoverService.save(cover);
-
               } catch (IOException e){
                   e.printStackTrace();
               }
              }
-        return new RedirectView("/blog");
+          return "redirect:/index";
+       // return new RedirectView("/blog");
     }
 
 
