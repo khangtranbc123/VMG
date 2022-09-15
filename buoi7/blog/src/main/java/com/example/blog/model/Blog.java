@@ -1,14 +1,18 @@
 package com.example.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("serial")
 @Entity
-public class Blog {
+public class Blog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,12 +21,12 @@ public class Blog {
     @Column
     private String content;
     @ManyToOne
-    @JoinColumn(name = "Categoryid")
-    private Category category;
-
-    @ManyToOne
     @JoinColumn(name = "authorid")
-    private Author author;
+    private Author authors;
+    @ManyToOne()
+    @JoinColumn(name = "Categoryid")
+    private Category categorys;
+    @JsonIgnore
     @OneToMany(mappedBy = "blog")
     private Set<Cover> covers;
     @Transient
@@ -44,12 +48,20 @@ public class Blog {
         this.files = files;
     }
 
-    public Category getCategory() {
-        return category;
+    public Author getAuthors() {
+        return authors;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setAuthors(Author authors) {
+        this.authors = authors;
+    }
+
+    public Category getCategorys() {
+        return categorys;
+    }
+
+    public void setCategorys(Category categorys) {
+        this.categorys = categorys;
     }
 
     public Integer getId() {

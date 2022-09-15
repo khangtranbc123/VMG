@@ -1,17 +1,21 @@
 package com.example.blog.model;
 
-import javax.persistence.*;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+@SuppressWarnings("serial")
 @Entity
-public class Category {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
-    @OneToMany(mappedBy = "category")
-    private List<Blog> Blogs;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categorys")
+    private List<Blog> blogCategory;
 
     public Integer getId() {
         return id;
@@ -29,11 +33,11 @@ public class Category {
         this.name = name;
     }
 
-    public List<Blog> getBlogs() {
-        return Blogs;
+    public List<Blog> getBlogCategory() {
+        return blogCategory;
     }
 
-    public void setBlogs(List<Blog> blogs) {
-        Blogs = blogs;
+    public void setBlogCategory(List<Blog> blogCategory) {
+        this.blogCategory = blogCategory;
     }
 }

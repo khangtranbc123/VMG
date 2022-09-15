@@ -1,19 +1,22 @@
 package com.example.blog.model;
 
-import javax.persistence.*;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+@SuppressWarnings("serial")
 @Entity
-public class Author {
+public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private String name;
-
-    @OneToMany(mappedBy = "author")
-    private List<Blog> Blogs;
+    private String authorName;
+    @JsonIgnore
+    @OneToMany(mappedBy = "authors")
+    private List<Blog> blogAuthor;
 
     public Integer getId() {
         return id;
@@ -22,20 +25,18 @@ public class Author {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
+    public String getAuthorName() {
+        return authorName;
+    }
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public List<Blog> getBlogAuthor() {
+        return blogAuthor;
     }
 
-    public List<Blog> getBlogs() {
-        return Blogs;
-    }
-
-    public void setBlogs(List<Blog> blogs) {
-        Blogs = blogs;
+    public void setBlogAuthor(List<Blog> blogAuthor) {
+        this.blogAuthor = blogAuthor;
     }
 }
