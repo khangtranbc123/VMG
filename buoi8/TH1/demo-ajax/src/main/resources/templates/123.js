@@ -1,6 +1,6 @@
 
     $(document).ready(function() {
-    $.getJSON('http://localhost:8080/blog', function(json) {
+    $.getJSON('http://localhost:8080/companyList', function(json) {
         var tr=[];
         for (var i = 0; i < json.length; i++) {
             tr.push('<tr>');

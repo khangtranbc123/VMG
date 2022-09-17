@@ -1,5 +1,6 @@
 package com.example.blog.form;
 
+import com.example.blog.model.Author;
 import com.example.blog.model.Category;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ public class BlogForm {
     private String content;
     private Set<CoverForm> coverForms;
     private Category category;
+    private Author author;
 
     private List<MultipartFile> files;
 
@@ -31,6 +33,7 @@ public class BlogForm {
         private String content;
         private Set<CoverForm> coverForms;
 //        private Category category;
+
 
         public BlogFormBuilder(String title){
             this.title = title;
