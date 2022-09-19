@@ -58,7 +58,7 @@ public class BlogController {
         return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 5,sort), HttpStatus.OK);
     }
     @GetMapping("/blog/find")
-    public ResponseEntity<List<Blog>> getListText(@RequestParam("text") String text ) {
+    public ResponseEntity<List<Blog>> getListText(@RequestParam(name="text") String text ) {
         return new ResponseEntity<List<Blog>>(blogService.findText(text), HttpStatus.OK);
     }
     @GetMapping("/blog/{id}")
@@ -71,11 +71,12 @@ public class BlogController {
         blogService.saveOrUpdate(blog);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+//    @ModelAttribute BlogForm blogForm,
     @PostMapping("/blog/create")
-    public ResponseEntity<Void> saveOrall(@ModelAttribute BlogForm blogForm) {
+    public ResponseEntity<Void> saveOrUpdate( @ModelAttribute BlogForm blogForm) {
         Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
-        blog.setAuthors(blogForm.getAuthor());
-        blog.setCategorys(blogForm.getCategory());
+        blog.setAuthors(blogForm.getAuthors());
+        blog.setCategorys(blogForm.getCategorys());
         blogService.saveOrUpdate(blog);
         for (MultipartFile file : blogForm.getFiles()){
             try {
@@ -89,10 +90,19 @@ public class BlogController {
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-
     @DeleteMapping("/blog/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        blogService.delete(id);
+        Blog blog = blogService.getById(id);
+        Cover cover = coverService.getByBlog(blog);
+
+        if (cover != null){
+            Integer idC = cover.getId();
+            coverService.delete(idC);
+            blogService.delete(id);
+        }else {
+            blogService.delete(id);
+        }
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

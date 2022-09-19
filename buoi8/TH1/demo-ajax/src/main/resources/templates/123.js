@@ -13,24 +13,24 @@
     });
 
     $(document).delegate('#addNew', 'click', function(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    var name = $('#name').val();
+        var name = $('#name').val();
 
-    $.ajax({
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    url: "http://localhost:8080/company/save",
-    data: JSON.stringify({'name': name}),
-    cache: false,
-    success: function(result) {
-    $("#msg").html( "<span style='color: green'>Company added successfully</span>" );
-    window.setTimeout(function(){location.reload()},1000)
-},
-    error: function(err) {
-    $("#msg").html( "<span style='color: red'>Name is required</span>" );
-}
-});
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "http://localhost:8080/company/save",
+            data: JSON.stringify({'name': name}),
+            cache: false,
+            success: function(result) {
+            $("#msg").html( "<span style='color: green'>Company added successfully</span>" );
+            window.setTimeout(function(){location.reload()},1000)
+        },
+            error: function(err) {
+            $("#msg").html( "<span style='color: red'>Name is required</span>" );
+        }
+    });
 });
 
     $(document).delegate('.delete', 'click', function() {

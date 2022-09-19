@@ -14,8 +14,8 @@ public class BlogForm {
     private String title;
     private String content;
     private Set<CoverForm> coverForms;
-    private Category category;
-    private Author author;
+    private Category categorys;
+    private Author authors;
 
     private List<MultipartFile> files;
 

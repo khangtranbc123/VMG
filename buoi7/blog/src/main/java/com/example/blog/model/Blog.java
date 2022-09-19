@@ -26,7 +26,7 @@ public class Blog implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "Categoryid")
     private Category categorys;
-    @JsonIgnore
+
     @OneToMany(mappedBy = "blog")
     private Set<Cover> covers;
     @Transient

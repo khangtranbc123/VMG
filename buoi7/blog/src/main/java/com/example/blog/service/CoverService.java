@@ -1,5 +1,6 @@
 package com.example.blog.service;
 
+import com.example.blog.model.Blog;
 import com.example.blog.model.Category;
 import com.example.blog.model.Cover;
 import com.example.blog.repository.CoverRepository;
@@ -19,7 +20,9 @@ public class CoverService {
     public Cover getById(Integer id) {
         return coverRepository.findById(id).get();
     }
-
+    public Cover getByBlog(Blog blog) {
+        return coverRepository.findByBlog(blog);
+    }
     public void saveOrUpdate(Cover cover) {
         coverRepository.save(cover);
     }

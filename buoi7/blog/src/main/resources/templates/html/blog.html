@@ -10,84 +10,93 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="/templates/js/crud.js"></script>
 
 </head>
-<body class="container">
-        <br>
+<body>
+<div class="container">
+    <br>
+    <!-- Button trigger modal -->
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Create new a Blog
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create new a Blog</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="add">
-                            <div>
-                                <label>Title</label>
-                                <input type="text" id="title" name="title">
-                            </div>
-                            <div>
-                                <label>content</label>
-                                <input type="text" id="content" name="content">
-                            </div>
-                            <div>
-                                <label>Category</label>
-                                <select id="op1" name="categorys">
-                                    <option> cate </option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>Author</label>
-                                <select id="op2" name="authors">
-                                    <option> Tác giả </option>
-                                </select>
-                            </div>
-                            <div>
-                                <input type="submit" id="addNew" value="Submit">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+        <div class="row">
+            <div class="col-5">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Create new a Blog
+                </button>
+            </div>
+                <div class="col-7">
+                    <form id="findForm">
+                        <input type="text" id="text" name="text">
+                        <input type="submit" id="find" value="Seach">
+                    </form>
                 </div>
+        </div>
+
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Cover</th>
+            <th>TT</th>
+        </tr>
+    </table>
+
+    <div id="number">
+
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create new a Blog</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add">
+                    <div id='msg'></div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div>
+                        <label>content</label>
+                        <input type="text" id="content" name="content">
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <select id="categorys" name="categorys">
+                            <option> cate</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Author</label>
+                        <select id="authors" name="authors">
+                            <option> Tác giả</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Img</label>
+                        <input type="file" id="files" name="files">
+                    </div>
+                    <div>
+                        <input type="submit" id="addNew" value="Submit">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
-        <br>
-        <hr>
-        <table class="table">
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Category</th>
-                <th>Author</th>
-                <th>Cover</th>
-                <th>TT</th>
-            </tr>
-        </table>
-        <button id="chuyen" name="pageNumber" value="1">one</button>
-        <br>
-
-        <div class="noidung-pt"></div>
-        <ul class="phantrang" style="display: inline-block">
-            <li><button id="phantrang1">1</button></li>
-            <li><button id="phantrang2">2</button></li>
-            <li><button id="phantrang3">3</button></li>
-            <li><button id="phantrang4">4</button></li>
-            <li><button id="phantrang5">5</button></li>
-        </ul>
-
+    </div>
+</div>
 </body>
 </html>

@@ -15,7 +15,7 @@ public class Cover {
     private Integer id;
 
     private String name;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;
