@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/demo")
 public class CompanyController {
     @Autowired private CompanyService companyService;
 
@@ -19,7 +20,7 @@ public class CompanyController {
         return new ResponseEntity<List<Company>>(companyService.getCompanyList(), HttpStatus.OK);
     }
 
-    @GetMapping("/company/{id}")
+    @GetMapping("/companyList/{id}")
     public ResponseEntity<Company> getCompany(@PathVariable Integer id) {
         return new ResponseEntity<Company>(companyService.getCompanyById(id), HttpStatus.OK);
     }

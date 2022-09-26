@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class Cover {
     private Integer id;
 
     private String name;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;

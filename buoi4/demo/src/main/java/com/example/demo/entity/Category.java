@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Category {
     private Integer id;
     @Column
     private String name;
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Blog> Blogs;
 

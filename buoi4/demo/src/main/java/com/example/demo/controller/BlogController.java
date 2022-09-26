@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Collections;
@@ -43,9 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 @Slf4j
-@RequestMapping("/blog")
+@RequestMapping("/api")
 public class BlogController {
     @Autowired private ICoverService iCoverService;
     @Autowired private IBlogService iBlogService;
@@ -54,25 +55,32 @@ public class BlogController {
 //    private String fileUpload;
     @Value("${upload.path}")
     private String fileUpload;
-    @GetMapping()
-    public ModelAndView getAll(@Valid Blog blog, Errors errors, Model model, @RequestParam("id")Optional<Integer> id){
-        List<Cover> covers = iCoverService.getAll();
-        List<Category> cates = iCategoryService.getAll();
-        ModelAndView modelAndView = new ModelAndView("/index");
-        modelAndView.addObject("covers", covers );
-        modelAndView.addObject("cates", cates );
-        modelAndView.addObject("message", "thanh cong" );
-        // model.addAttribute("blogs", blogs);
-        if(id.isPresent()) {
-            System.out.println(id.get());
-            modelAndView.addObject("blogs", iCategoryService.finById(id.get()).get().getBlogs());
-        }else {
-            List<Blog> blogs = iBlogService.getAll();
-            modelAndView.addObject("blogs", blogs );
 
-        }
-        return modelAndView;
+    @GetMapping("/list")
+    public List<Blog> finAll(){
+        List<Blog> blogList = iBlogService.getAll();
+        return blogList;
     }
+//    @GetMapping("/index")
+//    public ModelAndView getAll(@Valid Blog blog, Errors errors, Model model, @RequestParam("id")Optional<Integer> id){
+//        List<Cover> covers = iCoverService.getAll();
+//        List<Category> cates = iCategoryService.getAll();
+//        ModelAndView modelAndView = new ModelAndView("/index");
+//        modelAndView.addObject("covers", covers );
+//        modelAndView.addObject("cates", cates );
+//        modelAndView.addObject("message", "thanh cong" );
+//        // model.addAttribute("blogs", blogs);
+//        if(id.isPresent()) {
+//            System.out.println(id.get());
+//            modelAndView.addObject("blogs", iCategoryService.finById(id.get()).get().getBlogs());
+//        }else {
+//            List<Blog> blogs = iBlogService.getAll();
+//            modelAndView.addObject("blogs", blogs );
+//
+//        }
+//        return modelAndView;
+//    }
+
 
     @GetMapping("/add")
     public ModelAndView add(Model model){

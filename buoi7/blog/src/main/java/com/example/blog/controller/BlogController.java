@@ -26,6 +26,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class BlogController {
     @Autowired private BlogService blogService;
@@ -52,7 +53,7 @@ public class BlogController {
 //        return blogPage;
 //    }
 //  @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber)
-    @GetMapping("/blog")
+    @GetMapping("/list")
     public ResponseEntity<Page<Blog>> getList(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber) {
         Sort sort = Sort.by("id").descending();
         return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 5,sort), HttpStatus.OK);
@@ -89,6 +90,11 @@ public class BlogController {
             }
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    @PutMapping("/blog/update/{id}")
+    public ResponseEntity<Blog> updateBlogs(@PathVariable("id") Integer id, @RequestBody Blog blog){
+        blogService.saveOrUpdate(blog);
+        return new ResponseEntity<Blog>(HttpStatus.OK);
     }
     @DeleteMapping("/blog/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
