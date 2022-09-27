@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +36,7 @@ public class BlogController {
     @Autowired private AuthorService authorService;
     @Value("${upload.path}")
     private String fileUpload;
-    @GetMapping("blog1")
+    @GetMapping("/blog1")
     public List<Blog> index(){
         return blogService.getList();
     }
@@ -53,7 +54,8 @@ public class BlogController {
 //        return blogPage;
 //    }
 //  @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber)
-    @GetMapping("/list")
+//@PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
+@GetMapping("/list")
     public ResponseEntity<Page<Blog>> getList(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber) {
         Sort sort = Sort.by("id").descending();
         return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 5,sort), HttpStatus.OK);

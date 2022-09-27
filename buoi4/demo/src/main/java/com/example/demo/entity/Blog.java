@@ -9,12 +9,14 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Validated
-public class Blog {
+@SuppressWarnings("serial")
+public class Blog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,7 +29,7 @@ public class Blog {
     private String content;
     @ManyToOne
     @JoinColumn(name = "Categoryid")
-    private Category category;
+    private Category categories;
 
     @OneToMany(mappedBy = "blog")
     private Set<Cover> covers;
@@ -50,12 +52,12 @@ public class Blog {
         this.files = files;
     }
 
-    public Category getCategory() {
-        return category;
+    public Category getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Category categories) {
+        this.categories = categories;
     }
 
     public Integer getId() {

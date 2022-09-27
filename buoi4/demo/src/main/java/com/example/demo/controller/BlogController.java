@@ -47,6 +47,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class BlogController {
     @Autowired private ICoverService iCoverService;
     @Autowired private IBlogService iBlogService;
@@ -61,6 +62,7 @@ public class BlogController {
         List<Blog> blogList = iBlogService.getAll();
         return blogList;
     }
+
 //    @GetMapping("/index")
 //    public ModelAndView getAll(@Valid Blog blog, Errors errors, Model model, @RequestParam("id")Optional<Integer> id){
 //        List<Cover> covers = iCoverService.getAll();
@@ -102,7 +104,7 @@ public class BlogController {
                 return "create";
             }
          Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
-          blog.setCategory(blogForm.getCategory());
+          blog.setCategories(blogForm.getCategory());
           iBlogService.save(blog);
           for (MultipartFile file: blogForm.getFiles()){
               try {
