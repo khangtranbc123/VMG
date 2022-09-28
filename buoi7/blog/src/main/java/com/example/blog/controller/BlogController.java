@@ -36,15 +36,15 @@ public class BlogController {
     @Autowired private AuthorService authorService;
     @Value("${upload.path}")
     private String fileUpload;
-    @GetMapping("/blog1")
+    @GetMapping("/list")
     public List<Blog> index(){
         return blogService.getList();
     }
-    @GetMapping("/category")
+    @GetMapping("/categorys")
     public List<Category> getCate(){
         return categoryService.getList();
     }
-    @GetMapping("/author")
+    @GetMapping("/authors")
     public List<Author> getAuthor(){
         return authorService.getList();
     }
@@ -55,10 +55,10 @@ public class BlogController {
 //    }
 //  @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber)
 //@PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
-@GetMapping("/list")
+@GetMapping("/list1")
     public ResponseEntity<Page<Blog>> getList(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber) {
         Sort sort = Sort.by("id").descending();
-        return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 5,sort), HttpStatus.OK);
+        return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 10,sort), HttpStatus.OK);
     }
     @GetMapping("/blog/find")
     public ResponseEntity<List<Blog>> getListText(@RequestParam(name="text") String text ) {
