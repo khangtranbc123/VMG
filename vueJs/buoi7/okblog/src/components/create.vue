@@ -58,6 +58,7 @@
 
 <script>
 import BlogService from '../services/BlogService'
+import UserService from '../services/user-service'
 export default {
   name: 'add-blog',
   data: function () {
@@ -67,6 +68,7 @@ export default {
         content: '',
         categorys: '',
         authors: '',
+        contentAuth: '',
         file: []
       },
       categorys: [],
@@ -117,6 +119,16 @@ export default {
   mounted () {
     this.getCategorys()
     this.getAuthors()
+    UserService.getUserBoard().then(
+      response => {
+        this.contentAuth = response.data
+      },
+      error => {
+        this.contentAuth =
+        (error.response && error.response.data) ||
+        error.message || error.toString()
+      }
+    )
   }
 }
 </script>

@@ -13,6 +13,8 @@ import com.example.blog.service.CoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,8 @@ public class BlogController {
     @Autowired private AuthorService authorService;
     @Value("${upload.path}")
     private String fileUpload;
-    @GetMapping("/list")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') ")
+    @GetMapping("/list1")
     public List<Blog> index(){
         return blogService.getList();
     }
@@ -54,11 +57,12 @@ public class BlogController {
 //        return blogPage;
 //    }
 //  @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber)
-//@PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
-@GetMapping("/list1")
-    public ResponseEntity<Page<Blog>> getList(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber) {
-        Sort sort = Sort.by("id").descending();
-        return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageNumber, 10,sort), HttpStatus.OK);
+@GetMapping("/list")
+@PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public ResponseEntity<Page<Blog>> getList(@RequestParam(defaultValue = "0") int pageNumber
+                                            ,@RequestParam( defaultValue = "5") int sizeNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, sizeNumber);
+        return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageable), HttpStatus.OK);
     }
     @GetMapping("/blog/find")
     public ResponseEntity<List<Blog>> getListText(@RequestParam(name="text") String text ) {
@@ -75,7 +79,8 @@ public class BlogController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 //    @ModelAttribute BlogForm blogForm,
-    @PostMapping("/blog/create")
+@PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
+@PostMapping("/blog/create")
     public ResponseEntity<Void> saveOrUpdate( @ModelAttribute BlogForm blogForm) {
         Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
         blog.setAuthors(blogForm.getAuthors());

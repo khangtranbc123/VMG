@@ -44,17 +44,36 @@
 
 <script>
 import BlogService from '../services/BlogService'
-
+import UserSerVice from '../services/user-service'
 export default {
   name: 'blog-list',
   data () {
     return {
       blogs: [],
       currentBlog: null,
-      currentIndex: -1
+      currentIndex: -1,
+      content: '',
+      page: 1,
+      cuont: 0,
+      pageSize: 2,
+      itemCount: 6,
+      pageSizes: [2, 4, 6],
+      multipleSelection: [],
+      search: ''
+
     }
   },
   methods: {
+    getRequestParams (page, pageSize) {
+      let params = {}
+      if (page) {
+        params[ 'page' ] = page - 1
+      }
+      if (pageSize) {
+        params['size'] = pageSize
+      }
+      return params
+    },
     retrieveBlog () {
       BlogService.getAll()
         .then(response => {
@@ -83,6 +102,17 @@ export default {
   },
   mounted () {
     this.retrieveBlog()
+    UserSerVice.getUserBoard().then(
+      response => {
+        this.content = response.data
+      },
+      error => {
+        this.content =
+        (error.response && error.response.data) ||
+        error.message ||
+        error.toString()
+      }
+    )
   }
 }
 </script>

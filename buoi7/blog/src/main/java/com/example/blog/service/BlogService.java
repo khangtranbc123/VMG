@@ -18,8 +18,8 @@ public class BlogService {
     public List<Blog> getList() {
         return blogRepository.findAll();
     }
-    public Page<Blog> getByPage( int pageNumber, int maxNumber, Sort sort){
-        Pageable pageable = PageRequest.of(pageNumber, maxNumber, sort);
+    public Page<Blog> getByPage( int pageNumber, int maxNumber){
+        Pageable pageable = PageRequest.of(pageNumber, maxNumber);
         return blogRepository.findBlog(pageable);
     }
     public List<Blog> findText(String text) {
