@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BlogService {
@@ -32,7 +33,9 @@ public class BlogService {
     public void saveOrUpdate(Blog blog) {
         blogRepository.save(blog);
     }
-
+    public Optional<Blog> findById(int id){
+        return blogRepository.findById(id);
+    }
     public void delete(Integer id) {
         blogRepository.deleteById(id);
     }

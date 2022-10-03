@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('../components/create.vue')
     },
     {
+      path: '/blog/:blogId',
+      name: 'EditBlog',
+      component: () => import('../components/Edit.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../components/Login.vue')

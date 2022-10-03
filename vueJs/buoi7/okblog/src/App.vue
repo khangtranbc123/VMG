@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">bezKoder</router-link>
+      <router-link to="/" class="navbar-brand">BlogOk</router-link>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/blog" class="nav-link">Blogs</router-link>
@@ -10,17 +10,17 @@
           <router-link to="/add" class="nav-link">Add</router-link>
         </li>
       </div>
-      <div class="navbar-nav mr-auto" v-if="!loggedIn">
+      <div class="user-navbar navbar-nav mr-auto" v-if="!loggedIn">
         <li>
           <router-link to="/login" class="nav-link">Login</router-link>
         </li>
       </div>
-      <div class="navbar-nav mr-auto" v-if="!loggedIn">
+      <div class="user-navbar navbar-nav mr-auto" v-if="!loggedIn">
         <li>
           <router-link to="/Register" class="nav-link">Register</router-link>
         </li>
       </div>
-      <div class="navbar-nav mr-auto" v-if="loggedIn">
+      <div class="user-navbar navbar-nav mr-auto" v-if="loggedIn" style="">
         <li>
             <button class="btn btn-danger nav-link" @click="logOut">logOut</button>
         </li>
@@ -50,3 +50,8 @@ export default {
   }
 }
 </script>
+<style>
+  .user-navbar {
+    float: left
+  }
+</style>

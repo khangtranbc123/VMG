@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -59,10 +60,9 @@ public class BlogController {
 //  @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber)
 @GetMapping("/list")
 @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    public ResponseEntity<Page<Blog>> getList(@RequestParam(defaultValue = "0") int pageNumber
-                                            ,@RequestParam( defaultValue = "5") int sizeNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, sizeNumber);
-        return new ResponseEntity<Page<Blog>>(blogService.getByPage(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<Blog>> getList(@RequestParam(defaultValue = "0") int page
+                                            ,@RequestParam(defaultValue = "5") int pageSize) {
+        return new ResponseEntity<Page<Blog>>(blogService.getByPage(page, pageSize), HttpStatus.OK);
     }
     @GetMapping("/blog/find")
     public ResponseEntity<List<Blog>> getListText(@RequestParam(name="text") String text ) {
@@ -70,11 +70,15 @@ public class BlogController {
     }
     @GetMapping("/blog/{id}")
     public ResponseEntity<Blog> getBlog(@PathVariable Integer id) {
-        return new ResponseEntity<Blog>(blogService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<Blog>(blogService.findById(id).get(), HttpStatus.OK);
     }
 
-    @PostMapping("/blog/save")
-    public ResponseEntity<Void> saveOrUpdate(@RequestBody Blog blog) {
+    @PostMapping("/blog/save/{id}")
+       @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public ResponseEntity<Void> saveOrUpdate123(@ModelAttribute BlogForm blogForm) {
+        Blog blog = new Blog.BlogBuilder(blogForm.getTitle()).content(blogForm.getContent()).build();
+        blog.setAuthors(blogForm.getAuthors());
+        blog.setCategorys(blogForm.getCategorys());
         blogService.saveOrUpdate(blog);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -98,12 +102,25 @@ public class BlogController {
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-    @PutMapping("/blog/update/{id}")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PutMapping("/blog/{id}")
     public ResponseEntity<Blog> updateBlogs(@PathVariable("id") Integer id, @RequestBody Blog blog){
-        blogService.saveOrUpdate(blog);
-        return new ResponseEntity<Blog>(HttpStatus.OK);
+       Optional<Blog> blogData = blogService.findById(id);
+       Blog _blog = blogData.get();
+       _blog.setTitle(blog.getTitle());
+       _blog.setContent(blog.getContent());
+       _blog.setAuthors(blog.getAuthors());
+       _blog.setCategorys(blog.getCategorys());
+       blogService.saveOrUpdate(_blog);
+//       blog.setTitle(blogForm.getTitle());
+//       blog.setContent(blogForm.getContent());
+//       blog.setCategorys(blogForm.getCategorys());
+//       blog.setAuthors(blogForm.getAuthors());
+
+       return new ResponseEntity<>(_blog, HttpStatus.OK);
     }
     @DeleteMapping("/blog/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Blog blog = blogService.getById(id);
         Cover cover = coverService.getByBlog(blog);
